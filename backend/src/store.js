@@ -69,24 +69,22 @@ function stLabel(k) {
  * it is not new demo/mock data, and it excludes any report/notification
  * history. */
 function buildInitialConfig() {
-  const buildings = [
+ 
+    const buildings = [
     { id: 'B1', name: 'المبنى الرئيسي' },
-    { id: 'B2', name: 'مبنى المختبرات' },
   ];
-  const locations = [
-    { id: 'LAB-101', name: 'مختبر البرمجة 1', buildingId: 'B1', floor: 1, type: 'lab' },
-    { id: 'LAB-102', name: 'مختبر الحاسب 2', buildingId: 'B1', floor: 1, type: 'lab' },
-    { id: 'LAB-103', name: 'مختبر الشبكات', buildingId: 'B1', floor: 2, type: 'lab' },
-    { id: 'ROOM-104', name: 'قاعة تدريب 1', buildingId: 'B1', floor: 1, type: 'room' },
-    { id: 'ROOM-105', name: 'قاعة تدريب 2', buildingId: 'B1', floor: 2, type: 'room' },
-    { id: 'ROOM-201', name: 'قاعة تدريب 3', buildingId: 'B2', floor: 1, type: 'room' },
-    { id: 'LAB-202', name: 'مختبر الإلكترونيات', buildingId: 'B2', floor: 1, type: 'lab' },
-    { id: 'ROOM-203', name: 'قاعة اجتماعات', buildingId: 'B2', floor: 2, type: 'room' },
-    { id: 'LAB-204', name: 'مختبر الذكاء الاصطناعي', buildingId: 'B2', floor: 2, type: 'lab' },
-    { id: 'ROOM-205', name: 'استراحة المتدربين', buildingId: 'B2', floor: 1, type: 'room' },
+   const locations = [
+    { id: 'HALL-A', name: 'قاعة A', buildingId: 'B1', floor: 1, type: 'room' },
+    { id: 'HALL-B', name: 'قاعة B', buildingId: 'B1', floor: 1, type: 'room' },
+    { id: 'HALL-C', name: 'قاعة C', buildingId: 'B1', floor: 1, type: 'room' },
+    { id: 'HALL-D', name: 'قاعة D', buildingId: 'B1', floor: 1, type: 'room' },
+    { id: 'ADMIN-OFFICE', name: 'مكتب الإدارة', buildingId: 'B1', floor: 2, type: 'room' },
+    { id: 'STAFF-OFFICE', name: 'مكتب الموظفات', buildingId: 'B1', floor: 2, type: 'room' },
+    { id: 'RECEPTION', name: 'الاستقبال', buildingId: 'B1', floor: 1, type: 'room' },
+    { id: 'STUDENTS-HALL', name: 'قاعة الطالبات', buildingId: 'B1', floor: 1, type: 'room' },
   ];
 
-  const deviceTypes = ['حاسب آلي', 'شاشة عرض', 'طابعة', 'راوتر شبكة', 'مكيف'];
+const deviceTypes = ['الإضاءة', 'مكيف', 'جهاز مكتبي', 'كيبورد', 'ماوس', 'لوحة الماوس', 'المعالج', 'الشبكة والإنترنت'];
   const brands = ['Dell', 'HP', 'Lenovo', 'Epson', 'Cisco', 'Midea'];
   const devices = [];
   let dNum = 1;
@@ -130,8 +128,9 @@ function buildInitialConfig() {
 
 // Admin password lives only as a server-side constant (no database), and can
 // be overridden with an environment variable for real deployments.
-const ADMIN_PASSWORD = process.env.SQRM_ADMIN_PASSWORD || 'Admin@2026';
-
+const bcrypt = require('bcryptjs');
+const ADMIN_PASSWORD_PLAIN = process.env.SQRM_ADMIN_PASSWORD || 'Admin@2026';
+const ADMIN_PASSWORD_HASH = bcrypt.hashSync(ADMIN_PASSWORD_PLAIN, 10);
 const store = {
   ...buildInitialConfig(),
   reports: [],
@@ -174,8 +173,7 @@ module.exports = {
   store,
   uid,
   pad,
-  ADMIN_PASSWORD,
-  PROBLEM_TYPES,
+  ADMIN_PASSWORD_HASH,  PROBLEM_TYPES,
   PRIORITIES,
   STATUSES,
   DEVICE_STATUSES,
