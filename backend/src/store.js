@@ -109,12 +109,19 @@ const deviceTypes = ['الإضاءة', 'مكيف', 'جهاز مكتبي', 'كي�
   const technicians = [
     { id: 'T1', name: 'خالد المطيري', email: 'technician@example.com', role: 'technician', specialties: ['device', 'network'] },
     { id: 'T2', name: 'سعيد القحطاني', email: 'technician2@example.com', role: 'technician', specialties: ['ac', 'electricity', 'plumbing'] },
-  ];
+  ];  
   const employees = [
-    { id: 'E1', name: 'محمد العتيبي', email: 'employee@example.com', role: 'employee' },
-    { id: 'E2', name: 'نورة الدوسري', email: 'employee2@example.com', role: 'employee' },
+    { id: 'E1', name: 'رباب الهلال', email: 'employee1@example.com', role: 'employee' },
+    { id: 'E2', name: 'اريج الراشد', email: 'employee2@example.com', role: 'employee' },
+    { id: 'E3', name: 'بيان العزيب', email: 'employee3@example.com', role: 'employee' },
+    { id: 'E4', name: 'رحمه البلادي', email: 'employee4@example.com', role: 'employee' },
+    { id: 'E5', name: 'نورا الحرز', email: 'employee5@example.com', role: 'employee' },
+    { id: 'E6', name: 'هيا الكرود', email: 'employee6@example.com', role: 'employee' },
+    { id: 'E7', name: 'داوود الخزعل', email: 'employee7@example.com', role: 'employee' },
+    { id: 'E8', name: 'حسين الحربي', email: 'employee8@example.com', role: 'employee' },
+    { id: 'E9', name: 'احمد المشعل', email: 'employee9@example.com', role: 'employee' },
   ];
-  const admin = { id: 'A1', name: 'مدير النظام', email: 'admin@example.com', role: 'admin' };
+  const admin = { id: 'A1', name: 'جواهر الجريش', email: 'admin@example.com', role: 'admin' };
 
   const settings = {
     escalationHours: 24,
