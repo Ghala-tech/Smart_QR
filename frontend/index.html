@@ -420,8 +420,8 @@ const NAV = {
     ['/admin/locations','map','المواقع والمختبرات'],
     ['/admin/devices','cpu','الأجهزة'],
     ['/admin/qr','qr','مولّد QR'],
-    ['/admin/technicians','users','الفنيون والمستخدمون'],
-    ['/admin/notifications','bell','الإشعارات'],
+    ['/admin/technicians','users','المستخدمون'],
+        ['/admin/notifications','bell','الإشعارات'],
     ['/admin/analytics','chart','التحليلات والتنبؤ'],
     ['/admin/reports-export','download','التقارير وتصدير Excel'],
     ['/admin/settings','settings','الإعدادات'],
@@ -1142,15 +1142,7 @@ Views.reportDetails = function(id, role){
     </div>
 
     <div class="space-y-5">
-      ${role==='admin' ? `
-      <div class="card p-5">
-        <p class="font-bold text-sm mb-3">إسناد فني</p>
-        <select id="assign-tech-select" class="mb-2">
-          <option value="">اختر فنيًا…</option>
-          ${s.technicians.map(t=>`<option value="${t.id}" ${rep.technicianId===t.id?'selected':''}>${t.name}</option>`).join('')}
-        </select>
-        <button onclick="assignTechUi('${rep.id}')" class="btn btn-primary w-full text-sm">إسناد البلاغ</button>
-      </div>
+            ${role==='admin' ? `
       <div class="card p-5">
         <p class="font-bold text-sm mb-3">تغيير الحالة</p>
         <div class="grid grid-cols-2 gap-2">
@@ -1183,15 +1175,6 @@ window.addNoteUi = async function(reportId, role){
   try{
     await DataService.addNote(reportId, val, currentUser());
     toast('تمت إضافة الملاحظة');
-    Router.render();
-  }catch(e){ toast(e.message); }
-};
-window.assignTechUi = async function(reportId){
-  const v = document.getElementById('assign-tech-select').value;
-  if(!v){ toast('اختر فنيًا'); return; }
-  try{
-    await DataService.assignTechnician(reportId, v);
-    toast('تم إسناد البلاغ');
     Router.render();
   }catch(e){ toast(e.message); }
 };
@@ -1566,28 +1549,7 @@ View._afterAdminQr = function(){
 Views.adminTechnicians = function(){
   const s = DataService.state;
   return dashboardLayout('admin','/admin/technicians', `
-  <h1 class="text-xl font-bold mb-5">الفنيون والمستخدمون</h1>
-  <p class="font-bold text-sm mb-3">الفنيون</p>
-  <div class="grid sm:grid-cols-2 gap-4 mb-7">
-    ${s.technicians.map(t=>{
-      const mine = s.reports.filter(r=>r.technicianId===t.id);
-      const closed = mine.filter(r=>r.status==='closed');
-      const rated = closed.filter(r=>r.rating!==null);
-      const avgRating = rated.length ? (rated.reduce((a,r)=>a+r.rating,0)/rated.length).toFixed(1) : '—';
-      return `<div class="card p-5">
-        <div class="flex items-center justify-between">
-          <p class="font-bold">${t.name}</p>
-          <span class="mono text-xs" style="color:var(--muted)">${t.email}</span>
-        </div>
-        <p class="text-xs mt-1" style="color:var(--muted)">التخصص: ${t.specialties.map(typeLabel).join('، ')}</p>
-        <div class="grid grid-cols-3 gap-2 mt-4 text-center">
-          <div><p class="font-bold">${mine.length}</p><p class="text-[11px]" style="color:var(--muted)">إجمالي البلاغات</p></div>
-          <div><p class="font-bold">${closed.length}</p><p class="text-[11px]" style="color:var(--muted)">مكتملة</p></div>
-          <div><p class="font-bold">${avgRating}</p><p class="text-[11px]" style="color:var(--muted)">متوسط التقييم</p></div>
-        </div>
-      </div>`;
-    }).join('')}
-  </div>
+   <h1 class="text-xl font-bold mb-5">المستخدمون</h1>
   <p class="font-bold text-sm mb-3">المستخدمون (موظفون)</p>
   <div class="card scroll-x">
     <table class="data-table">
